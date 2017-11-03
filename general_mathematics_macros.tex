@@ -12,6 +12,8 @@
 % Delimiters abs, norm, inner product automatically add a cdot if no argument is specified. (See mathtools documentation.)
 % Vector space specific inner products. (See mathtools documentation.)
 % Automatic spacing around differentials (like that defined by physics package).
+% Consider generalising \Ltwo to general L^p spaces.
+% Identity and zero matrices. And consider the future of \identity!
 
 
 %%%%%%%%%%%
@@ -20,6 +22,7 @@
 
 % In case of alignment issues or other problems with vectors, see https://tex.stackexchange.com/a/10643/63353.
 % Note that '\span' is a primitive command used in \multicolumn (see https://tex.stackexchange.com/questions/33264/span-as-a-math-operator), so the span of a set of vectors is defined as '\Span'.
+% L^2: Explicit domains should probably be specified manually, since they in general require parentheses (for instance L^2(R)), but not in the case of intervals. But consider using an if-statement to check.
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -87,30 +90,21 @@
 \newcommand{\curl}[1]{\nabla \times #1}			% Curl
 
 
-%%%%%%%%%%%%%%%%%%%
-%% Miscellaneous %%
-%%%%%%%%%%%%%%%%%%%
-
-% Complex numbers
-\renewcommand{\Re}{\operatorname{Re}}			% Real part
-\renewcommand{\Im}{\operatorname{Im}}			% Imaginary part
+%%%%%%%%%%
+%% Sets %%
+%%%%%%%%%%
 
 % Set builder notation
 \DeclarePairedDelimiterX{\set}[2]{\{}{\}}{#1\,\delimsize\vert\,\mathopen{}#2}
 
-% Maps
-\renewcommand{\ker}{\operatorname{ker}}			% Kernel
-\DeclareMathOperator{\im}{Im}					% Image
-
-% Miscellaneous operations
-\newcommand{\mean}[1]{\overline{#1}}			% Mean
-\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}	% Absolute value
-
-% Intervals
-\DeclarePairedDelimiter{\intoo}{]}{[}			% Open
-\DeclarePairedDelimiter{\intcc}{[}{]}			% Closed
-\DeclarePairedDelimiter{\intoc}{]}{]}			% Open left, closed right
-\DeclarePairedDelimiter{\intco}{[}{[}			% Closed right, open left
+% Miscellaneous sets
+\newcommand{\continuous}[3][\hspace{-0.5pt}]%
+	{C^{#1} (#2,#3)}							% Continuously differentiable functions
+\newcommand{\smooth}[2]{C^\infty (#1,#2)}		% Smooth functions
+\newcommand{\linear}[2]{\mathcal{L}(#1,#2)}		% Linear maps
+\newcommand{\Hilbert}{\mathcal{H}}				% Hilbert space
+\newcommand{\Ltwo}{L^2}							% L^2 (see notes)
+\newcommand{\Mat}[2]{\mathrm{Mat}_{#1}(#2)}		% Set Mat_n(F) of matrices
 
 % Blackboard bold sets
 \newcommand{\N}{\mathbb{N}}						% Natural numbers
@@ -120,6 +114,33 @@
 \newcommand{\C}{\mathbb{C}}						% Complex numbers
 \newcommand{\K}{\mathbb{K}}						% K field
 \newcommand{\F}{\mathbb{F}}						% F field
+
+% Intervals
+\DeclarePairedDelimiter{\intoo}{]}{[}			% Open
+\DeclarePairedDelimiter{\intcc}{[}{]}			% Closed
+\DeclarePairedDelimiter{\intoc}{]}{]}			% Open left, closed right
+\DeclarePairedDelimiter{\intco}{[}{[}			% Closed right, open left
+
+
+%%%%%%%%%%%%%%%%%%%
+%% Miscellaneous %%
+%%%%%%%%%%%%%%%%%%%
+
+% Complex numbers
+\renewcommand{\Re}{\operatorname{Re}}			% Real part
+\renewcommand{\Im}{\operatorname{Im}}			% Imaginary part
+
+% Maps
+\renewcommand{\ker}{\operatorname{ker}}			% Kernel
+\DeclareMathOperator{\im}{Im}					% Image
+\newcommand{\id}[1][\hspace{-0.5pt}]%
+	{\mathrm{Id}_{#1}}							% Identity map
+
+% Miscellaneous operations
+\newcommand{\mean}[1]{\overline{#1}}			% Mean
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}	% Absolute value
+\DeclareMathOperator{\sgn}{sgn}					% Sign
+\renewcommand{\deg}{\operatorname{deg}}			% Degree (e.g. of polynomium)
 
 % Statistics
 \newcommand{\std}[1][\hspace{0.7pt}]%
