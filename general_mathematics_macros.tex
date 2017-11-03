@@ -1,0 +1,129 @@
+\RequirePackage{mathtools}
+\RequirePackage{amssymb}
+\RequirePackage{bm}
+\RequirePackage{suffix}
+
+%%%%%%%%%%%
+%% To do &&
+%%%%%%%%%%%
+
+% Mixed partial derivatives.
+% Function definitions.
+% Delimiters abs, norm, inner product automatically add a cdot if no argument is specified. (See mathtools documentation.)
+% Vector space specific inner products. (See mathtools documentation.)
+% Automatic spacing around differentials (like that defined by physics package).
+
+
+%%%%%%%%%%%
+%% Notes %%
+%%%%%%%%%%%
+
+% In case of alignment issues or other problems with vectors, see https://tex.stackexchange.com/a/10643/63353.
+% Note that '\span' is a primitive command used in \multicolumn (see https://tex.stackexchange.com/questions/33264/span-as-a-math-operator), so the span of a set of vectors is defined as '\Span'.
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%% Vector notation %%
+%%%%%%%%%%%%%%%%%%%%%
+
+% Typeset bold upright vectors. Use starred version for greek letters and symbols. The argument to bm contains an extra pair of braces to avoid alignment problems.
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\WithSuffix\newcommand\vec*[1]{\bm{{#1}}}
+
+% Alternative bold italic vectors. Keep the starred version for compatibility with the above version.
+%\renewcommand{\vec}[1]{\bm{{#1}}}
+%\WithSuffix\newcommand\vec*[1]{\bm{{#1}}}
+
+% Hat vectors
+\newcommand{\hatvec}[1]{\hat{\vec{#1}}}
+\WithSuffix\newcommand\hatvec*[1]{\hat{\vec*{{#1}}}}
+
+% Unit vectors
+\newcommand{\ihat}{\bm{\hat{\textbf{\i}}}}
+\newcommand{\jhat}{\bm{\hat{\textbf{\j}}}}
+\newcommand{\khat}{\hatvec{k}}
+\newcommand{\xhat}{\hatvec{x}}
+\newcommand{\yhat}{\hatvec{y}}
+\newcommand{\zhat}{\hatvec{z}}
+
+
+%%%%%%%%%%%%%%%%%%%%
+%% Linear algebra %%
+%%%%%%%%%%%%%%%%%%%%
+
+% Maps, operators and matrices
+\newcommand{\op}[1]{\hat{#1}}					% Operator
+\newcommand{\identity}{\op{1}}					% Identity operator
+\renewcommand{\det}{\operatorname{det}}			% Determinant
+\DeclareMathOperator{\tr}{Tr}					% Trace
+\newcommand{\trans}[1]{#1^{T}}					% Matrix transpose
+
+% Vector spaces
+\renewcommand{\dim}{\operatorname{dim}}			% Dimension
+\DeclareMathOperator{\Span}{span}				% Span (see note)
+\newcommand{\orthog}[1]{#1^{\perp}}				% Orthogonal complement
+
+% Maps on vector spaces
+\DeclarePairedDelimiterX{\inner}[2]%
+	{\langle}{\rangle}{#1, #2}					% Inner product
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}	% Norm
+
+
+%%%%%%%%%%%%%%
+%% Calculus %%
+%%%%%%%%%%%%%%
+
+% Derivatives
+\newcommand{\dif}{\mathrm{d}}					% Differential
+\newcommand{\dv}[3][\hspace{-0.5pt}]%
+	{\frac{\dif^{#1} #2}{\dif #3^{#1}}}			% Ordinary derivative
+\newcommand{\pdv}[3][\hspace{-0.5pt}]%
+	{\frac{\partial^{#1} #2}{\partial #3^{#1}}}	% Partial derivative
+
+% Vector operators
+\let\div\divsymb
+\newcommand{\grad}[1]{\nabla #1}				% Gradient
+\newcommand{\div}[1]{\nabla \cdot #1}			% Divergence
+\newcommand{\curl}[1]{\nabla \times #1}			% Curl
+
+
+%%%%%%%%%%%%%%%%%%%
+%% Miscellaneous %%
+%%%%%%%%%%%%%%%%%%%
+
+% Complex numbers
+\renewcommand{\Re}{\operatorname{Re}}			% Real part
+\renewcommand{\Im}{\operatorname{Im}}			% Imaginary part
+
+% Set builder notation
+\DeclarePairedDelimiterX{\set}[2]{\{}{\}}{#1\,\delimsize\vert\,\mathopen{}#2}
+
+% Maps
+\renewcommand{\ker}{\operatorname{ker}}			% Kernel
+\DeclareMathOperator{\im}{Im}					% Image
+
+% Miscellaneous operations
+\newcommand{\mean}[1]{\overline{#1}}			% Mean
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}	% Absolute value
+
+% Intervals
+\DeclarePairedDelimiter{\intoo}{]}{[}			% Open
+\DeclarePairedDelimiter{\intcc}{[}{]}			% Closed
+\DeclarePairedDelimiter{\intoc}{]}{]}			% Open left, closed right
+\DeclarePairedDelimiter{\intco}{[}{[}			% Closed right, open left
+
+% Blackboard bold sets
+\newcommand{\N}{\mathbb{N}}						% Natural numbers
+\newcommand{\Z}{\mathbb{Z}}						% Integers
+\newcommand{\Q}{\mathbb{Q}}						% Rational numbers
+\newcommand{\R}{\mathbb{R}}						% Real numbers
+\newcommand{\C}{\mathbb{C}}						% Complex numbers
+\newcommand{\K}{\mathbb{K}}						% K field
+\newcommand{\F}{\mathbb{F}}						% F field
+
+% Statistics
+\newcommand{\std}[1][\hspace{0.7pt}]%
+	{\sigma_{#1}}								% Standard deviation
+\newcommand{\var}{\operatorname{Var}}			% Variance
+
+
