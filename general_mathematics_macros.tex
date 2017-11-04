@@ -8,21 +8,43 @@
 %%%%%%%%%%%
 
 % Mixed partial derivatives.
+
 % Function definitions.
+
 % Delimiters abs, norm, inner product automatically add a cdot if no argument is specified. (See mathtools documentation.)
+
 % Vector space specific inner products. (See mathtools documentation.)
-% Automatic spacing around differentials (like that defined by physics package).
+
+% Similarly: Subscript after expectation value. Is it necessary to rewrite the command, or is "_sub" sufficient?
+
 % Consider generalising \Ltwo to general L^p spaces.
+
 % Identity and zero matrices. And consider the future of \identity!
+
 % Consider redefining intervals as paired delimiters.
+
+% More convenient way to make roman subscripts (and super-?).
 
 
 %%%%%%%%%%%
 %% Notes %%
 %%%%%%%%%%%
 
+% This script redefines the following commands:
+	% \deg
+	% \d	(redefined as \underdot)
+	% \det
+	% \dim
+	% \div	(redefined as \divsymb)
+	% \Im
+	% \ker
+	% \Re
+	% \vec
+
 % In case of alignment issues or other problems with vectors, see https://tex.stackexchange.com/a/10643/63353.
+
 % Note that '\span' is a primitive command used in \multicolumn (see https://tex.stackexchange.com/questions/33264/span-as-a-math-operator), so the span of a set of vectors is defined as '\Span'.
+
 % L^2: Explicit domains should probably be specified manually, since they in general require parentheses (for instance L^2(R)), but not in the case of intervals. But consider using an if-statement to check.
 
 
@@ -77,18 +99,31 @@
 %% Calculus %%
 %%%%%%%%%%%%%%
 
-% Derivatives
-\newcommand{\dif}{\mathrm{d}}					% Differential
+% Derivatives: Optional argument is order. Leave the first mandatory argument blank for derivative operator.
+\let\d\underdot
+\newcommand{\d}[2][\hspace{-0.5pt}]%
+	{\mathop{\mathrm{d}^{#1}#2}}				% Differential
+\newcommand{\pd}[2][\hspace{-0.5pt}]%
+	{\mathop{\partial^{#1}#2}}					% Partial differential
 \newcommand{\dv}[3][\hspace{-0.5pt}]%
-	{\frac{\dif^{#1} #2}{\dif #3^{#1}}}			% Ordinary derivative
+	{\frac{\d[#1]{#2}}{\d{#3}^{#1}}}			% Ordinary derivative
 \newcommand{\pdv}[3][\hspace{-0.5pt}]%
-	{\frac{\partial^{#1} #2}{\partial #3^{#1}}}	% Partial derivative
+	{\frac{\pd[#1]{#2}}{\pd{#3}^{#1}}}			% Partial derivative
 
-% Vector operators
+% Old derivative commands
+%\newcommand{\dif}{\mathrm{d}}					% Differential
+%\newcommand{\dv}[3][\hspace{-0.5pt}]%
+%	{\frac{\dif^{#1} #2}{\dif #3^{#1}}}			% Ordinary derivative
+
+
+% Vector operators: To differentiate with respect to a particular vector, use the optional argument.
 \let\div\divsymb
-\newcommand{\grad}[1]{\nabla #1}				% Gradient
-\newcommand{\div}[1]{\nabla \cdot #1}			% Divergence
-\newcommand{\curl}[1]{\nabla \times #1}			% Curl
+\newcommand{\grad}[2][\hspace{0.5pt}]%
+	{\nabla_{\!#1} #2}							% Gradient
+\newcommand{\div}[2][\hspace{0.5pt}]%
+	{\nabla_{\!#1} \cdot #2}					% Divergence
+\newcommand{\curl}[2][\hspace{0.5pt}]%
+	{\nabla_{\!#1} \times #2}					% Curl
 
 
 %%%%%%%%%%
