@@ -2,20 +2,19 @@
 \RequirePackage{amssymb}
 \RequirePackage{bm}
 \RequirePackage{suffix}
+\RequirePackage{etoolbox}
 
 %%%%%%%%%%%
-%% To do &&
+%% To do %%
 %%%%%%%%%%%
 
-% Mixed partial derivatives.
+% Better document structure!
+
+% Mixed partial derivatives. (Long term project!)
 
 % Function definitions.
 
-% Delimiters abs, norm, inner product automatically add a cdot if no argument is specified. (See mathtools documentation.)
-
 % Vector space specific inner products. (See mathtools documentation.)
-
-% Similarly: Subscript after expectation value. Is it necessary to rewrite the command, or is "_sub" sufficient?
 
 % Consider generalising \Ltwo to general L^p spaces.
 
@@ -24,6 +23,10 @@
 % Consider redefining intervals as paired delimiters.
 
 % More convenient way to make roman subscripts (and super-?).
+
+% Differentials: Find automatic way to check if the next symbol is a full stop or comma, in which case the spacing should be diminished. Until then, making the punctuation part of the argument solves the problem (but it's a hack).
+
+% Consider separating \inner out into physics and mathematics specific files.
 
 
 %%%%%%%%%%%
@@ -91,8 +94,14 @@
 
 % Maps on vector spaces
 \DeclarePairedDelimiterX{\inner}[2]%
-	{\langle}{\rangle}{#1, #2}					% Inner product
-\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}	% Norm
+	{\langle}{\rangle}{
+		\ifblank{#1}{\:\cdot\:}{#1},
+		\ifblank{#2}{\:\cdot\:}{#2}
+	}											% Inner product
+\DeclarePairedDelimiterX{\norm}[1]%
+	{\lVert}{\rVert}{
+		\ifblank{#1}{\:\cdot\:}{#1}
+	}											% Norm
 
 
 %%%%%%%%%%%%%%
@@ -174,7 +183,10 @@
 
 % Miscellaneous operations
 \newcommand{\mean}[1]{\overline{#1}}			% Mean
-\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}	% Absolute value
+\DeclarePairedDelimiterX{\abs}[1]%
+	{\lvert}{\rvert}{
+		\ifblank{#1}{\:\cdot\:}{#1}
+	}											% Absolute value
 \DeclareMathOperator{\sgn}{sgn}					% Sign
 \renewcommand{\deg}{\operatorname{deg}}			% Degree (e.g. of polynomium)
 
