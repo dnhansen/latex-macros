@@ -12,21 +12,21 @@
 
 % Mixed partial derivatives. (Long term project!)
 
-% Function definitions.
-
-% Vector space specific inner products. (See mathtools documentation.)
+% Function definitions. (Probably too many moving parts for it to be easier with a dedicated command.)
 
 % Consider generalising \Ltwo to general L^p spaces.
 
-% Identity and zero matrices. And consider the future of \identity!
+% Identity and zero matrices. And consider the future of \identity! Also, other matrix specific macros would probably be useful (see e.g. physics package).
 
-% Consider redefining intervals as paired delimiters.
+% Consider redefining intervals to take two arguments.
 
 % More convenient way to make roman subscripts (and super-?).
 
 % Differentials: Find automatic way to check if the next symbol is a full stop or comma, in which case the spacing should be diminished. Until then, making the punctuation part of the argument solves the problem (but it's a hack).
 
-% Consider separating \inner out into physics and mathematics specific files.
+% Consider separating \inner out into physics and mathematics specific files. Especially since the definition is now more complex. Or define the delimiter globally elsewhere.
+
+% Conditional probabilities.
 
 
 %%%%%%%%%%%
@@ -92,16 +92,53 @@
 \DeclareMathOperator{\Span}{span}				% Span (see note)
 \newcommand{\orthog}[1]{#1^{\perp}}				% Orthogonal complement
 
-% Maps on vector spaces
-\DeclarePairedDelimiterX{\inner}[2]%
+%% Inner product %%
+
+% No explicit vector space
+\DeclarePairedDelimiterX{\innerNoPostCode}[2]%
 	{\langle}{\rangle}{
 		\ifblank{#1}{\:\cdot\:}{#1},
 		\ifblank{#2}{\:\cdot\:}{#2}
-	}											% Inner product
-\DeclarePairedDelimiterX{\norm}[1]%
+	}
+
+% With explicit vector space as post code
+\DeclarePairedDelimiterXPP{\innerPostCode}[3]{}{\langle}{\rangle}{_{#1}}%
+	{
+		\ifblank{#2}{\:\cdot\:}{#2},
+		\ifblank{#3}{\:\cdot\:}{#3}
+	}
+
+% Single command with optional argument to specify explicit vector space
+\newcommand{\inner}[3][]{%
+	\ifblank{#1}{%
+		\innerNoPostCode{#2}{#3}
+	}{%
+		\innerPostCode{#1}{#2}{#3}
+	}
+}
+
+%% Norm %%
+
+% No explicit vector space
+\DeclarePairedDelimiterX{\normNoPostCode}[1]%
 	{\lVert}{\rVert}{
 		\ifblank{#1}{\:\cdot\:}{#1}
-	}											% Norm
+	}
+
+% With explicit vector space as post code
+\DeclarePairedDelimiterXPP{\normPostCode}[2]{}{\lVert}{\rVert}{_{#1}}%
+	{
+		\ifblank{#2}{\:\cdot\:}{#2}
+	}
+
+% Single command with optional argument to specify explicit vector space
+\newcommand{\norm}[2][]{%
+	\ifblank{#1}{%
+		\normNoPostCode{#2}
+	}{%
+		\normPostCode{#1}{#2}
+	}
+}
 
 
 %%%%%%%%%%%%%%
@@ -118,12 +155,6 @@
 	{\frac{\d[#1]{#2}}{\d{#3}^{#1}}}			% Ordinary derivative
 \newcommand{\pdv}[3][\hspace{-0.5pt}]%
 	{\frac{\pd[#1]{#2}}{\pd{#3}^{#1}}}			% Partial derivative
-
-% Old derivative commands
-%\newcommand{\dif}{\mathrm{d}}					% Differential
-%\newcommand{\dv}[3][\hspace{-0.5pt}]%
-%	{\frac{\dif^{#1} #2}{\dif #3^{#1}}}			% Ordinary derivative
-
 
 % Vector operators: To differentiate with respect to a particular vector, use the optional argument.
 \let\div\divsymb
