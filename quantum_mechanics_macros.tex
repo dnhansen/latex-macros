@@ -45,3 +45,11 @@
 	}}									% If no optional argument
 	{\matrixel{#1}{#2}{#1}}				% If optional argument
 }
+\WithSuffix\newcommand\expval*[2][]{%	% Starred version
+	\ifblank{#1}%
+	{\expectationvalue*{%
+			\ifblank{#2}{\:\cdot\:}{#2}
+	}}									% If no optional argument
+	{\matrixel*{#1}{#2}{#1}}				% If optional argument
+}
+
