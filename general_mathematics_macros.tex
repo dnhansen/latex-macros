@@ -1,71 +1,88 @@
+% =====================================================
+% REQUIRED PACKAGES
+% =====================================================
+
 \RequirePackage{mathtools}
 \RequirePackage{amssymb}
 \RequirePackage{bm}
 \RequirePackage{suffix}
 \RequirePackage{etoolbox}
 
-%%%%%%%%%%%
-%% To do %%
-%%%%%%%%%%%
-
-% Better document structure! Also a few words on how to use the commands in general.
-
-% Mixed partial derivatives. (Long term project!)
-
-% Function definitions. (Probably too many moving parts for it to be easier with a dedicated command.)
-
-% Consider generalising \Ltwo to general L^p spaces.
-
-% Identity and zero matrices. And consider the future of \identity! Also, other matrix specific macros would probably be useful (see e.g. physics package).
-
-% Consider redefining intervals to take two arguments.
-
-% More convenient way to make roman subscripts (and super-?).
-
-% Differentials: Find automatic way to check if the next symbol is a full stop or comma, in which case the spacing should be diminished. Until then, making the punctuation part of the argument solves the problem (but it's a hack).
-
-% Consider separating \inner out into physics and mathematics specific files. Especially since the definition is now more complex. Or define the delimiter globally elsewhere.
-
-% Conditional probabilities.
-
-% Automatically check whether a vector is Latin or not. (Seems a bit complicated to do in general, may rely on xparse.)
-
-% Infinite sequence: Automatically detect the (maybe?) last letter of the input and start it from that letter = 1 by default. (Is this maybe too computationally expensive?)
 
 
-%%%%%%%%%%%
-%% Notes %%
-%%%%%%%%%%%
+% =====================================================
+% TO DO
+% =====================================================
 
-% This script redefines the following commands:
-	% \deg
-	% \d	(redefined as \underdot)
-	% \det
-	% \dim
-	% \div	(redefined as \divsymb)
-	% \Im
-	% \ker
-	% \Re
-	% \vec
+%  *  A few words on how to use the commands in general.
+%
+%  *  Mixed partial derivatives. (Long term project!)
+%
+%  *  Function definitions. (Probably too many moving parts for it to be easier with a dedicated command.)
+%
+%  *  Consider generalising \Ltwo to general L^p spaces.
+%
+%  *  Consider redefining intervals to take two arguments.
+%
+%  *  More convenient way to make roman subscripts (and super-?).
+%
+%  *  Differentials: Find automatic way to check if the next symbol is a full stop or comma, in which case the spacing should be diminished. Until then, making the punctuation part of the argument solves the problem (but it's a hack).
+%
+%  *  Consider separating \inner out into physics and mathematics specific files. Especially since the definition is now more complex. Or define the delimiter globally elsewhere.
+%
+%  *  Conditional probabilities.
+%
+%  *  Automatically check whether a vector is Latin or not. (Seems a bit complicated to do in general, may rely on xparse.)
+%
+%  *  Infinite sequence: Automatically detect the (maybe?) last letter of the input and start it from that letter = 1 by default. (Is this maybe too computationally expensive?)
 
-% In case of alignment issues or other problems with vectors, see https://tex.stackexchange.com/a/10643/63353.
-
-% Note that '\span' is a primitive command used in \multicolumn (see https://tex.stackexchange.com/questions/33264/span-as-a-math-operator), so the span of a set of vectors is defined as '\Span'.
-
-% L^2: Explicit domains should probably be specified manually, since they in general require parentheses (for instance L^2(R)), but not in the case of intervals. But consider using an if-statement to check.
 
 
-%%%%%%%%%%%%%%%%%%%%%
-%% Vector notation %%
-%%%%%%%%%%%%%%%%%%%%%
+% =====================================================
+% Notes
+% =====================================================
+
+%  *  This script redefines the following commands:
+%		\deg
+%		\d		(redefined as \underdot)
+%		\det
+%		\dim
+%		\div	(redefined as \divsymb)
+%		\Im
+%		\ker
+%		\Re
+%		\vec
+%
+%  *  In case of alignment issues or other problems with vectors, see https://tex.stackexchange.com/a/10643/63353.
+%
+%  *  Note that '\span' is a primitive command used in \multicolumn (see https://tex.stackexchange.com/questions/33264/span-as-a-math-operator), so the span of a set of vectors is defined as '\Span'.
+%
+%  *  L^2: Explicit domains should probably be specified manually, since they in general require parentheses (for instance L^2(R)), but not in the case of intervals. But consider using an if-statement to check.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%% VECTOR NOTATION %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =====================================================
+% GENERAL VECTORS
+% =====================================================
 
 % Typeset bold upright vectors. Use starred version for greek letters and symbols. The argument to bm contains an extra pair of braces to avoid alignment problems.
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \WithSuffix\newcommand\vec*[1]{\bm{{#1}}}
 
-% Alternative bold italic vectors. Keep the starred version for compatibility with the above version.
+% Alternative bold italic vectors. Keep the starred version for compatibility with the above version (maybe?).
 %\renewcommand{\vec}[1]{\bm{{#1}}}
 %\WithSuffix\newcommand\vec*[1]{\bm{{#1}}}
+
+
+
+% =====================================================
+% SPECIAL VECTORS
+% =====================================================
 
 % Hat vectors
 \newcommand{\hatvec}[1]{\hat{\vec{#1}}}
@@ -80,9 +97,15 @@
 \newcommand{\zhat}{\hatvec{z}}
 
 
-%%%%%%%%%%%%%%%%%%%%
-%% Linear algebra %%
-%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% LINEAR ALGEBRA %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =====================================================
+% GENERAL
+% =====================================================
 
 % Maps, operators and matrices
 \newcommand{\op}[1]{\hat{#1}}					% Operator
@@ -96,23 +119,27 @@
 \DeclareMathOperator{\Span}{span}				% Span (see note)
 \newcommand{\orthog}[1]{#1^{\perp}}				% Orthogonal complement
 
-%% Inner product %%
 
-% No explicit vector space
-\DeclarePairedDelimiterX{\innerNoPostCode}[2]%
-	{\langle}{\rangle}{
+
+% =====================================================
+% INNER PRODUCT
+% =====================================================
+
+% General inner product
+\DeclarePairedDelimiterX{\innerNoPostCode}[2]{\langle}{\rangle}%
+	{
 		\ifblank{#1}{\:\cdot\:}{#1},
 		\ifblank{#2}{\:\cdot\:}{#2}
 	}
 
-% With explicit vector space as post code
+% With respect to a particular vector space (as post code)
 \DeclarePairedDelimiterXPP{\innerPostCode}[3]{}{\langle}{\rangle}{_{#1}}%
 	{
 		\ifblank{#2}{\:\cdot\:}{#2},
 		\ifblank{#3}{\:\cdot\:}{#3}
 	}
 
-% Single command with optional argument to specify explicit vector space
+% Single command with optional argument to specify particular vector space
 \newcommand{\inner}[3][]{%
 	\ifblank{#1}{%
 		\innerNoPostCode{#2}{#3}
@@ -121,7 +148,7 @@
 	}
 }
 
-% Starred version
+% Starred version (automatic resizing)
 \WithSuffix\newcommand\inner*[3][]{
 	\ifblank{#1}{%
 		\innerNoPostCode*{#2}{#3}
@@ -130,21 +157,25 @@
 	}
 }
 
-%% Norm %%
 
-% No explicit vector space
-\DeclarePairedDelimiterX{\normNoPostCode}[1]%
-	{\lVert}{\rVert}{
+
+% =====================================================
+% NORM
+% =====================================================
+
+% General norm
+\DeclarePairedDelimiterX{\normNoPostCode}[1]{\lVert}{\rVert}%
+	{
 		\ifblank{#1}{\:\cdot\:}{#1}
 	}
 
-% With explicit vector space as post code
+% With respect to a particular vector space (as post code)
 \DeclarePairedDelimiterXPP{\normPostCode}[2]{}{\lVert}{\rVert}{_{#1}}%
 	{
 		\ifblank{#2}{\:\cdot\:}{#2}
 	}
 
-% Single command with optional argument to specify explicit vector space
+% Single command with optional argument to specify particular vector space
 \newcommand{\norm}[2][]{%
 	\ifblank{#1}{%
 		\normNoPostCode{#2}
@@ -153,7 +184,7 @@
 	}
 }
 
-% Starred version
+% Starred version (automatic resizing)
 \WithSuffix\newcommand\norm*[2][]{
 	\ifblank{#1}{%
 		\normNoPostCode*{#2}
@@ -163,34 +194,53 @@
 }
 
 
-%%%%%%%%%%%%%%
-%% Calculus %%
-%%%%%%%%%%%%%%
 
-% Derivatives: Optional argument is order. Leave the first mandatory argument blank for derivative operator.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% CALCULUS %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =====================================================
+% ONE DIMENSION
+% =====================================================
+
+% Differential
 \let\d\underdot
-\newcommand{\d}[2][\hspace{-0.5pt}]%
-	{\mathop{\mathrm{d}^{#1}#2}}				% Differential
-\newcommand{\pd}[2][\hspace{-0.5pt}]%
-	{\mathop{\partial^{#1}#2}}					% Partial differential
-\newcommand{\dv}[3][\hspace{-0.5pt}]%
-	{\frac{\d[#1]{#2}}{\d{#3}^{#1}}}			% Ordinary derivative
-\newcommand{\pdv}[3][\hspace{-0.5pt}]%
-	{\frac{\pd[#1]{#2}}{\pd{#3}^{#1}}}			% Partial derivative
+\newcommand{\d}[2][\hspace{-0.5pt}]{\mathop{\mathrm{d}^{#1}#2}}
+
+% Partial differential
+\newcommand{\pd}[2][\hspace{-0.5pt}]{\mathop{\partial^{#1}#2}}
+
+% Ordinary derivative
+\newcommand{\dv}[3][\hspace{-0.5pt}]{\frac{\d[#1]{#2}}{\d{#3}^{#1}}}
+
+% Partial derivative
+\newcommand{\pdv}[3][\hspace{-0.5pt}]{\frac{\pd[#1]{#2}}{\pd{#3}^{#1}}}
+
+
+
+% =====================================================
+% MULTI-DIMENSIONAL
+% =====================================================
 
 % Vector operators: To differentiate with respect to a particular vector, use the optional argument.
+
+% Gradient
+\newcommand{\grad}[2][\hspace{0.5pt}]{\nabla_{\!#1} #2}
+
+% Divergence
 \let\div\divsymb
-\newcommand{\grad}[2][\hspace{0.5pt}]%
-	{\nabla_{\!#1} #2}							% Gradient
-\newcommand{\div}[2][\hspace{0.5pt}]%
-	{\nabla_{\!#1} \cdot #2}					% Divergence
-\newcommand{\curl}[2][\hspace{0.5pt}]%
-	{\nabla_{\!#1} \times #2}					% Curl
+\newcommand{\div}[2][\hspace{0.5pt}]{\nabla_{\!#1} \cdot #2}
+
+% Curl
+\newcommand{\curl}[2][\hspace{0.5pt}]{\nabla_{\!#1} \times #2}
 
 
-%%%%%%%%%%
-%% Sets %%
-%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% SETS %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Set builder notation
 \DeclarePairedDelimiterX{\set}[2]{\{}{\}}{#1\,\delimsize\vert\,\mathopen{}#2}
@@ -220,9 +270,59 @@
 \DeclarePairedDelimiter{\intco}{[}{[}			% Closed right, open left
 
 
-%%%%%%%%%%%%%%%%%%%
-%% Miscellaneous %%
-%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% MISCELLANEOUS %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =====================================================
+% OPERATIONS
+% =====================================================
+
+% Mean
+\newcommand{\mean}[1]{\overline{#1}}
+
+% Absolute value
+\DeclarePairedDelimiterX{\abs}[1]%
+{\lvert}{\rvert}{
+	\ifblank{#1}{\:\cdot\:}{#1}
+}
+
+% Sign
+\DeclareMathOperator{\sgn}{sgn}
+
+% Degree (e.g. of polynomial)
+\renewcommand{\deg}{\operatorname{deg}}
+
+
+
+% =====================================================
+% INFINITE SEQUENCES
+% =====================================================
+
+% Define delimiters
+\newcommand{\seqLeftDelimiter}{\{}
+\newcommand{\seqRightDelimiter}{\}}
+
+% Alternative delimiters
+%\newcommand{\seqLeftDelimiter}{(}
+%\newcommand{\seqRightDelimiter}{)}
+
+% Define sequence as paired delimiter
+\DeclarePairedDelimiterXPP{\infiniteSequence}[2]{}{\seqLeftDelimiter}{\seqRightDelimiter}{_{#2}^{\infty}}{#1}
+
+% New command with optional argument to specify lower bound
+\newcommand{\seq}[2][n=1]{\infiniteSequence{#2}{#1}}
+
+% Starred version (automatic resizing)
+\WithSuffix\newcommand\seq*[2][n=1]{\infiniteSequence*{#2}{#1}}
+
+
+
+% =====================================================
+% MISCELLANEOUS
+% =====================================================
 
 % Complex numbers
 \renewcommand{\Re}{\operatorname{Re}}			% Real part
@@ -234,24 +334,12 @@
 \newcommand{\id}[1][\hspace{-0.5pt}]%
 	{\mathrm{Id}_{#1}}							% Identity map
 
-% Miscellaneous operations
-\newcommand{\mean}[1]{\overline{#1}}			% Mean
-\DeclarePairedDelimiterX{\abs}[1]%
-	{\lvert}{\rvert}{
-		\ifblank{#1}{\:\cdot\:}{#1}
-	}											% Absolute value
-\DeclareMathOperator{\sgn}{sgn}					% Sign
-\renewcommand{\deg}{\operatorname{deg}}			% Degree (e.g. of polynomium)
-
 % Statistics
 \newcommand{\std}[1][\hspace{0.7pt}]%
 	{\sigma_{#1}}								% Standard deviation
 \newcommand{\var}{\operatorname{Var}}			% Variance
 
-% Infinite sequence
-\DeclarePairedDelimiterXPP{\infiniteSequence}[2]{}{\{}{\}}{_{#2}^{\infty}}{#1}
-\newcommand{\seq}[2][n=1]{\infiniteSequence{#2}{#1}}
-\WithSuffix\newcommand\seq*[2][n=1]{\infiniteSequence*{#2}{#1}}
+
 
 
 
