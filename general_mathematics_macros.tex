@@ -35,6 +35,8 @@
 %  *  Automatically check whether a vector is Latin or not. (Seems a bit complicated to do in general, may rely on xparse.)
 %
 %  *  Infinite sequence: Automatically detect the (maybe?) last letter of the input and start it from that letter = 1 by default. (Is this maybe too computationally expensive?)
+%
+%  *  DeclarePairedDelimiterXPP: Can it take optional arguments? I.e., is it really necessary to define auxilliary commands? It really shouldn't be!
 
 
 
@@ -126,33 +128,33 @@
 % =====================================================
 
 % General inner product
-\DeclarePairedDelimiterX{\innerNoPostCode}[2]{\langle}{\rangle}%
+\DeclarePairedDelimiterX{\innerNoPostCode}[2]{\langle}{\rangle}
 	{
 		\ifblank{#1}{\:\cdot\:}{#1},
 		\ifblank{#2}{\:\cdot\:}{#2}
 	}
 
 % With respect to a particular vector space (as post code)
-\DeclarePairedDelimiterXPP{\innerPostCode}[3]{}{\langle}{\rangle}{_{#1}}%
+\DeclarePairedDelimiterXPP{\innerPostCode}[3]{}{\langle}{\rangle}{_{#1}}
 	{
 		\ifblank{#2}{\:\cdot\:}{#2},
 		\ifblank{#3}{\:\cdot\:}{#3}
 	}
 
 % Single command with optional argument to specify particular vector space
-\newcommand{\inner}[3][]{%
-	\ifblank{#1}{%
+\newcommand{\inner}[3][]{
+	\ifblank{#1}{
 		\innerNoPostCode{#2}{#3}
-	}{%
+	}{
 		\innerPostCode{#1}{#2}{#3}
 	}
 }
 
 % Starred version (automatic resizing)
 \WithSuffix\newcommand\inner*[3][]{
-	\ifblank{#1}{%
+	\ifblank{#1}{
 		\innerNoPostCode*{#2}{#3}
-	}{%
+	}{
 		\innerPostCode*{#1}{#2}{#3}
 	}
 }
@@ -164,31 +166,31 @@
 % =====================================================
 
 % General norm
-\DeclarePairedDelimiterX{\normNoPostCode}[1]{\lVert}{\rVert}%
+\DeclarePairedDelimiterX{\normNoPostCode}[1]{\lVert}{\rVert}
 	{
 		\ifblank{#1}{\:\cdot\:}{#1}
 	}
 
 % With respect to a particular vector space (as post code)
-\DeclarePairedDelimiterXPP{\normPostCode}[2]{}{\lVert}{\rVert}{_{#1}}%
+\DeclarePairedDelimiterXPP{\normPostCode}[2]{}{\lVert}{\rVert}{_{#1}}
 	{
 		\ifblank{#2}{\:\cdot\:}{#2}
 	}
 
 % Single command with optional argument to specify particular vector space
-\newcommand{\norm}[2][]{%
-	\ifblank{#1}{%
+\newcommand{\norm}[2][]{
+	\ifblank{#1}{
 		\normNoPostCode{#2}
-	}{%
+	}{
 		\normPostCode{#1}{#2}
 	}
 }
 
 % Starred version (automatic resizing)
 \WithSuffix\newcommand\norm*[2][]{
-	\ifblank{#1}{%
+	\ifblank{#1}{
 		\normNoPostCode*{#2}
-	}{%
+	}{
 		\normPostCode*{#1}{#2}
 	}
 }
@@ -284,8 +286,7 @@
 \newcommand{\mean}[1]{\overline{#1}}
 
 % Absolute value
-\DeclarePairedDelimiterX{\abs}[1]%
-{\lvert}{\rvert}{
+\DeclarePairedDelimiterX{\abs}[1]{\lvert}{\rvert}{
 	\ifblank{#1}{\:\cdot\:}{#1}
 }
 

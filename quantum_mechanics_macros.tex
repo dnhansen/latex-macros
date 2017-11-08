@@ -1,17 +1,31 @@
+% =====================================================
+% REQUIRED PACKAGES
+% =====================================================
+
 \RequirePackage{mathtools}
 \RequirePackage{etoolbox}
 \RequirePackage{suffix}
 
-%%%%%%%%%%%
-%% To do %%
-%%%%%%%%%%%
-
-% Subscript after expectation value. Is it necessary to rewrite the command, or is "_sub" sufficient?
 
 
-%%%%%%%%%%%%%%%%%%%%%%
-%% Bra-ket notation %%
-%%%%%%%%%%%%%%%%%%%%%%
+% =====================================================
+% TO DO
+% =====================================================
+
+%  *  Subscript after expectation value. Is it necessary to rewrite the command, or is "_sub" sufficient?
+%
+%  *  Ket and bra with optional "subscript" (to denote e.g. different pictures). But see above.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% DIRAC NOTATION %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =====================================================
+% BRA/KET
+% =====================================================
 
 % Bra. Use starred versions for automatic resizing.
 \newcommand{\bra}[1]{\mathinner {\langle {#1}\rvert}}
@@ -21,9 +35,8 @@
 \newcommand{\ket}[1]{\mathinner {\lvert {#1}\rangle}}
 \WithSuffix\newcommand\ket*[1]{\mathinner {\left| {#1}\right\rangle}}
 
-% Bra-ket. Takes two arguments.
-\DeclarePairedDelimiterX{\braket}[2]%
-{\langle}{\rangle}{
+% Braket. Takes two arguments.
+\DeclarePairedDelimiterX{\braket}[2]{\langle}{\rangle}{
 	\ifblank{#1}{\:\cdot\:}{#1}
 	\,\delimsize\vert\,\mathopen{}
 	\ifblank{#2}{\:\cdot\:}{#2}
@@ -33,23 +46,48 @@
 \DeclarePairedDelimiterX{\matrixel}[3]{\langle}{\rangle}%
 	{#1\,\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\,\mathopen{}#3}
 
+
+
+% =====================================================
+% EXPECTATION VALUE
+% =====================================================
+
+% If no optional argument is specified, it returns the ordinary expectation value '<Q>', but if the state 'x' is specified as an optional argument, it instead returns the matrix element '<x|Q|x>'.
+
+% Define paired delimiter for no explicit state
+\DeclarePairedDelimiter{\expectationvalue}{\langle}{\rangle}
+
+% General command
+\newcommand{\expval}[2][]{
+	\ifblank{#1}{
+		\expectationvalue{					% If no explicit state
+			\ifblank{#2}{\:\cdot\:}{#2}		% Check if argument is blank
+		}
+	}{
+		\matrixel{#1}{#2}{#1}				% If explicit state
+	}
+}
+
+% Starred version (automatic resizing)
+\WithSuffix\newcommand\expval*[2][]{
+	\ifblank{#1}{
+		\expectationvalue*{					% If no explicit state
+			\ifblank{#2}{\:\cdot\:}{#2}		% Check if argument is blank
+		}
+	}{
+		\matrixel*{#1}{#2}{#1}				% If explicit state
+	}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% MISCELLANEOUS %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Commutator. Takes two arguments.
 \DeclarePairedDelimiterX{\comm}[2]{[}{]}{#1, #2}
 
-% Expectation value. If no optional argument is specified, it returns the ordinary expectation value '<Q>', but if the state 'x' is specified as an optional argument, it instead returns the matrix element '<x|Q|x>'.
-\DeclarePairedDelimiter{\expectationvalue}{\langle}{\rangle}
-\newcommand{\expval}[2][]{%
-	\ifblank{#1}%
-	{\expectationvalue{%
-		\ifblank{#2}{\:\cdot\:}{#2}
-	}}									% If no optional argument
-	{\matrixel{#1}{#2}{#1}}				% If optional argument
-}
-\WithSuffix\newcommand\expval*[2][]{%	% Starred version
-	\ifblank{#1}%
-	{\expectationvalue*{%
-			\ifblank{#2}{\:\cdot\:}{#2}
-	}}									% If no optional argument
-	{\matrixel*{#1}{#2}{#1}}				% If optional argument
-}
+
 
