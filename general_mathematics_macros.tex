@@ -67,9 +67,11 @@
 
 % Define fraction command which automatically detects inline math.
 \newcommand{\myfrac}[2]{
-	\ifinner#1/#2
-	\else\frac{#1}{#2}
-	\fi
+	\mathchoice
+	{\frac{#1}{#2}}     % \displaystyle
+	{#1/#2}             % \textstyle
+	{\frac{#1}{#2}}     % \scriptstyle
+	{\frac{#1}{#2}}     % \scriptscriptstyle
 }
 
 % See also: https://tex.stackexchange.com/a/223561/63353
