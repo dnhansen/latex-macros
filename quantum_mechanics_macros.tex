@@ -28,12 +28,12 @@
 % =====================================================
 
 % Bra. Use starred versions for automatic resizing.
-\newcommand{\bra}[1]{\mathinner {\langle {#1}\rvert}}
-\WithSuffix\newcommand\bra*[1]{\mathinner {\left\langle {#1}\right|}}
+\newcommand{\bra}[1]{\mathinner {\langle #1\,\rvert}}
+\WithSuffix\newcommand\bra*[1]{\mathinner {\left\langle #1\,\right|}}
 
 % Ket
-\newcommand{\ket}[1]{\mathinner {\lvert {#1}\rangle}}
-\WithSuffix\newcommand\ket*[1]{\mathinner {\left| {#1}\right\rangle}}
+\newcommand{\ket}[1]{\mathinner {\lvert \,{#1}\rangle}}
+\WithSuffix\newcommand\ket*[1]{\mathinner {\left| \,{#1}\right\rangle}}
 
 % Braket. Takes two arguments.
 \DeclarePairedDelimiterX{\braket}[2]{\langle}{\rangle}{
