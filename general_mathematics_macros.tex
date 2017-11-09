@@ -61,6 +61,19 @@
 %
 %  *  L^2: Explicit domains should probably be specified manually, since they in general require parentheses (for instance L^2(R)), but not in the case of intervals. But consider using an if-statement to check.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%% FRACTIONS %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define fraction command which automatically detects inline math.
+\newcommand{\myfrac}[2]{
+	\ifinner#1/#2
+	\else\frac{#1}{#2}
+	\fi
+}
+
+% See also: https://tex.stackexchange.com/a/223561/63353
+
 
 
 
@@ -214,10 +227,10 @@
 \newcommand{\pd}[2][\hspace{-0.5pt}]{\mathop{\partial^{#1}#2}}
 
 % Ordinary derivative
-\newcommand{\dv}[3][\hspace{-0.5pt}]{\frac{\d[#1]{#2}}{\d{#3}^{#1}}}
+\newcommand{\dv}[3][\hspace{-0.5pt}]{\myfrac{\d[#1]{#2}}{\d{#3}^{#1}}}
 
 % Partial derivative
-\newcommand{\pdv}[3][\hspace{-0.5pt}]{\frac{\pd[#1]{#2}}{\pd{#3}^{#1}}}
+\newcommand{\pdv}[3][\hspace{-0.5pt}]{\myfrac{\pd[#1]{#2}}{\pd{#3}^{#1}}}
 
 
 
