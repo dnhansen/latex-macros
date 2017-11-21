@@ -7,6 +7,7 @@
 \RequirePackage{bm}
 \RequirePackage{suffix}
 \RequirePackage{etoolbox}
+\RequirePackage{tensor}
 
 
 
@@ -37,6 +38,8 @@
 %  *  Infinite sequence: Automatically detect the (maybe?) last letter of the input and start it from that letter = 1 by default. (Is this maybe too computationally expensive?)
 %
 %  *  DeclarePairedDelimiterXPP: Can it take optional arguments? I.e., is it really necessary to define auxilliary commands? It really shouldn't be!
+%
+%  *  Consider best way to do matrix representations (in the style of Jesper Funch!).
 
 
 
@@ -135,6 +138,7 @@
 \renewcommand{\dim}{\operatorname{dim}}			% Dimension
 \DeclareMathOperator{\Span}{span}				% Span (see note)
 \newcommand{\orthog}[1]{#1^{\perp}}				% Orthogonal complement
+\newcommand{\Vbasis}{\mathcal{V}}				% Calligraphic V for basis
 
 
 
@@ -210,6 +214,19 @@
 	}
 }
 
+
+
+% =====================================================
+% MATRIX REPRESENTATIONS
+% =====================================================
+
+\DeclarePairedDelimiterX{\matrepdelim}[1]{[}{]}
+	{
+		\ifblank{#1}{\:\cdot\:}{#1}
+	}
+
+\newcommand{\matrep}[3]{\tensor[_{#1}]{\matrepdelim{#2}}{_{#3}}}
+\WithSuffix\newcommand\matrep*[3]{\tensor[_{#1}]{\matrepdelim*{#2}}{_{#3}}}
 
 
 
